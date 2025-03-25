@@ -3,7 +3,6 @@ import io.qameta.allure.Feature;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import io.restassured.specification.ResponseSpecification;
 import org.example.Constants;
 import org.example.Endpoints;
 import org.json.JSONObject;
@@ -32,6 +31,25 @@ public class LoginTests {
 
         assertions.assertEquals(response.statusCode(), 200, "Incorrect status code.");
         assertions.assertNotNull(response.jsonPath().getString("accessToken"), "Token is null");
+        assertions.assertAll();
+    }
+
+    @Test
+    @Feature("Авторизация пользователя")
+    @Description("Тест авторизации с невалидными данными")
+    public void givenNotValidCredentials_whenLogin_thenError() {
+        requestBody.put("email", Constants.incorrectEmailUser);
+        requestBody.put("password", Constants.passwordUser);
+
+        Response response = baseUrl
+                .basePath(endpoints.login)
+                .header("Content-Type", "application/json")
+                .body(requestBody.toString())
+                .when()
+                .post();
+
+        assertions.assertEquals(response.statusCode(), 401, "Incorrect status code.");
+        assertions.assertTrue(response.jsonPath().getString("message").equals("Unauthorized"));
         assertions.assertAll();
     }
 }
