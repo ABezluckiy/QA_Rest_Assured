@@ -5,6 +5,10 @@ public class Messages {
     public final static String tokenIsNull = "Token is null.";
     public final static String userNotAuthorized = "User not authorized.";
     public final static String incorrectUserEmail = "Incorrect user email.";
+    public final static String userIdIsNull = "User id is null.";
+    public final static String userEmailIsNull = "User email is null.";
+    public final static String tokenIsValid = "Token is valid.";
+    public final static String idNotMatching = "Id not matching.";
 
     public final static String validationError = "Validation error";
     public final static String emailMustBeUnique = "email must be unique";

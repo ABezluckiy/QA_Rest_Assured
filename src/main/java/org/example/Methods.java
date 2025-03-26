@@ -3,6 +3,7 @@ package org.example;
 import java.util.UUID;
 
 import io.restassured.RestAssured;
+import io.restassured.response.Response;
 import org.json.JSONObject;
 
 public class Methods {
@@ -12,7 +13,7 @@ public class Methods {
         return UUID.randomUUID().toString();
     }
 
-    public static String getTokenByDefaultUser() {
+    public static Response getTokenByDefaultUser() {
         JSONObject requestBody = new JSONObject();
         requestBody.put("email", Constants.correctEmailUser);
         requestBody.put("password", Constants.correctPasswordUser);
@@ -24,8 +25,7 @@ public class Methods {
                     .header("Content-Type", "application/json")
                     .body(requestBody.toString())
                 .when()
-                .post()
-                    .jsonPath()
-                    .getString("accessToken");
+                .post();
     }
+
 }
