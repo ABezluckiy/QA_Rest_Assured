@@ -9,7 +9,6 @@ public class Endpoints {
 
     public String updateUserInfoById =  "/users/{id}";
     public String getUserInfoById =  "/users/{id}";
-    public String usersList =  "/users";
 
     public String createPost =  "/posts";
     public String getPosts =  "/posts";

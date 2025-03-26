@@ -11,6 +11,8 @@ public class Messages {
     public final static String idNotMatching = "Id not matching.";
     public final static String paramIsValid = "Param is valid.";
     public final static String requestIsCorrect = "Request is correct.";
+    public final static String userFirstNameNotChanged = "User firstname do not changed";
+    public final static String userLastNameNotChanged = "User lastname do not changed";
 
     public final static String validationError = "Validation error";
     public final static String emailMustBeUnique = "email must be unique";

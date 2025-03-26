@@ -13,13 +13,14 @@ import org.testng.asserts.SoftAssert;
 public class LoginTests {
     private final SoftAssert assertions = new SoftAssert();
     private final Endpoints endpoints = new Endpoints();
-    private final JSONObject requestBody = new JSONObject();
+    private JSONObject requestBody;
     private final RequestSpecification loginUrl = RestAssured.given().baseUri(endpoints.baseUrl).basePath(endpoints.login);
 
     @Test
     @Feature("Авторизация пользователя")
     @Description("Тест авторизации с валидными данными")
     public void givenValidCredentials_whenLogin_thenSuccess() {
+        requestBody = new JSONObject();
         requestBody.put("email", Constants.correctEmailUser);
         requestBody.put("password", Constants.correctPasswordUser);
 
@@ -38,6 +39,7 @@ public class LoginTests {
     @Feature("Авторизация пользователя")
     @Description("Тест авторизации с невалидными данными")
     public void givenIncorrectEmailCredentials_whenLogin_thenUnauthorized() {
+        requestBody = new JSONObject();
         requestBody.put("email", Constants.incorrectEmailUser);
         requestBody.put("password", Constants.correctPasswordUser);
 
@@ -56,6 +58,7 @@ public class LoginTests {
     @Feature("Авторизация пользователя")
     @Description("Тест авторизации с невалидными данными")
     public void givenIncorrectPasswordCredentials_whenLogin_thenUnauthorized() {
+        requestBody = new JSONObject();
         requestBody.put("email", Constants.correctEmailUser);
         requestBody.put("password", Constants.incorrectPasswordUser);
 

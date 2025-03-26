@@ -14,7 +14,7 @@ import org.testng.asserts.SoftAssert;
 public class RegistrationTests {
     private final SoftAssert assertions = new SoftAssert();
     private final Endpoints endpoints = new Endpoints();
-    private final JSONObject requestBody = new JSONObject();
+    private JSONObject requestBody;
     private final RequestSpecification signUpUrl = RestAssured.given().baseUri(endpoints.baseUrl).basePath(endpoints.signup);
 
     @Ignore
@@ -22,6 +22,8 @@ public class RegistrationTests {
     @Feature("Регистрация пользователя")
     @Description("Тест регистрации пользователя с валидными данными")
     public void givenValidCredentials_whenSignUp_thenSuccess() {
+        requestBody = new JSONObject();
+
         String userEmail = Constants.correctEmailUser;
         requestBody.put("email", userEmail);
         requestBody.put("password", Constants.correctPasswordUser);
@@ -42,6 +44,8 @@ public class RegistrationTests {
     @Feature("Регистрация пользователя")
     @Description("Тест регистрации пользователя с существующей почтой")
     public void givenExistsCredentials_whenSignUp_thenError() {
+        requestBody = new JSONObject();
+
         String userEmail = Constants.correctEmailUser;
         requestBody.put("email", userEmail);
         requestBody.put("password", Constants.correctPasswordUser);
@@ -62,6 +66,7 @@ public class RegistrationTests {
     @Feature("Регистрация пользователя")
     @Description("Тест регистрации пользователя с пустыми данными")
     public void givenEmptyCredentials_whenSignUp_thenErrors() {
+        requestBody = new JSONObject();
         requestBody.put("email", "");
         requestBody.put("password", "");
 
@@ -83,6 +88,7 @@ public class RegistrationTests {
     @Feature("Регистрация пользователя")
     @Description("Тест регистрации пользователя с пустыми данными")
     public void givenEmptyEmail_whenSignUp_thenErrors() {
+        requestBody = new JSONObject();
         requestBody.put("email", "");
         requestBody.put("password", Constants.correctPasswordUser);
 
