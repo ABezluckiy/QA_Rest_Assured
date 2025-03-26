@@ -70,5 +70,21 @@ public class UserTests {
         assertions.assertAll();
     }
 
+    @Test
+    @Feature("Работа с данными пользователями")
+    @Description("Получение данных пользователя по уникальному идентификатору")
+    public void givenInvalidUserId_whenGetUserInfo_thenBadRequestReturned() {
+        Response response = baseUrl
+                .basePath(endpoints.updateUserInfoById)
+                .header("Authorization", "")
+                .pathParam("id", "userId")
+                .when()
+                .get();
 
+        assertions.assertEquals(response.statusCode(), 400, Messages.incorrectStatusCode);
+        assertions.assertEquals(response.jsonPath().getString("message"), Messages.validationFailed, Messages.paramIsValid);
+        assertions.assertEquals(response.jsonPath().getString("error"), Messages.badRequest, Messages.requestIsCorrect);
+
+        assertions.assertAll();
+    }
 }

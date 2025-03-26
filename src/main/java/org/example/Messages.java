@@ -9,6 +9,8 @@ public class Messages {
     public final static String userEmailIsNull = "User email is null.";
     public final static String tokenIsValid = "Token is valid.";
     public final static String idNotMatching = "Id not matching.";
+    public final static String paramIsValid = "Param is valid.";
+    public final static String requestIsCorrect = "Request is correct.";
 
     public final static String validationError = "Validation error";
     public final static String emailMustBeUnique = "email must be unique";
@@ -17,4 +19,5 @@ public class Messages {
     public final static String emailShouldBePresent = "email must be an email";
     public final static String emailShouldNotBeEmpty = "email should not be empty";
     public final static String passwordShouldNotBeEmpty = "password should not be empty";
+    public final static String validationFailed = "Validation failed (numeric string is expected)";
 }
