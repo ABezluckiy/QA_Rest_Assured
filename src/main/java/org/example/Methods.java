@@ -9,11 +9,11 @@ import org.json.JSONObject;
 public class Methods {
     private static final Endpoints endpoints = new Endpoints();
 
-    public static String getUniqueString() {
+    public String getUniqueString() {
         return UUID.randomUUID().toString();
     }
 
-    public static Response getCredentialsByDefaultUser() {
+    public Response getDefaultUserInfo() {
         JSONObject requestBody = new JSONObject();
         requestBody.put("email", Constants.correctEmailUser);
         requestBody.put("password", Constants.correctPasswordUser);
@@ -28,7 +28,7 @@ public class Methods {
                 .post();
     }
 
-    public static void returnUserData(String userId, String token) {
+    public void returnUserData(String userId, String token) {
         JSONObject returnUserData = new JSONObject();
         returnUserData.put("firstName", Constants.correctUserFirstname);
         returnUserData.put("lastName", Constants.correctUserLastname);
@@ -43,5 +43,4 @@ public class Methods {
                 .when()
                 .patch();
     }
-
 }

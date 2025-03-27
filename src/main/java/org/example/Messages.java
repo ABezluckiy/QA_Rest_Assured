@@ -1,6 +1,7 @@
 package org.example;
 
 public class Messages {
+    // Info messages
     public final static String incorrectStatusCode = "Incorrect status code.";
     public final static String tokenIsNull = "Token is null.";
     public final static String userNotAuthorized = "User not authorized.";
@@ -13,7 +14,10 @@ public class Messages {
     public final static String requestIsCorrect = "Request is correct.";
     public final static String userFirstNameNotChanged = "User firstname do not changed";
     public final static String userLastNameNotChanged = "User lastname do not changed";
+    public final static String firstNameShouldBeEmpty = "Firstname should be empty.";
+    public final static String lastNameShouldBeEmpty = "Lastname should be empty.";
 
+    // Server messages
     public final static String validationError = "Validation error";
     public final static String emailMustBeUnique = "email must be unique";
     public final static String unauthorized = "Unauthorized";
@@ -22,4 +26,6 @@ public class Messages {
     public final static String emailShouldNotBeEmpty = "email should not be empty";
     public final static String passwordShouldNotBeEmpty = "password should not be empty";
     public final static String validationFailed = "Validation failed (numeric string is expected)";
+    public final static String firstNameShouldNotBeEmpty = "firstName should not be empty";
+    public final static String lastNameShouldNotBeEmpty = "lastName should not be empty";
 }

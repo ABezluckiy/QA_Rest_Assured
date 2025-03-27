@@ -11,15 +11,15 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 public class LoginTests {
-    private final SoftAssert assertions = new SoftAssert();
     private final Endpoints endpoints = new Endpoints();
     private JSONObject requestBody;
     private final RequestSpecification loginUrl = RestAssured.given().baseUri(endpoints.baseUrl).basePath(endpoints.login);
 
-    @Test
+    @Test(testName = "Успешная авторизация пользователя с валидными данными")
     @Feature("Авторизация пользователя")
     @Description("Тест авторизации с валидными данными")
     public void givenValidCredentials_whenLogin_thenSuccess() {
+        SoftAssert softAssert = new SoftAssert();
         requestBody = new JSONObject();
         requestBody.put("email", Constants.correctEmailUser);
         requestBody.put("password", Constants.correctPasswordUser);
@@ -30,15 +30,16 @@ public class LoginTests {
                 .when()
                 .post();
 
-        assertions.assertEquals(response.statusCode(), 200, Messages.incorrectStatusCode);
-        assertions.assertNotNull(response.jsonPath().getString("accessToken"), Messages.tokenIsNull);
-        assertions.assertAll();
+        softAssert.assertEquals(response.statusCode(), 200, Messages.incorrectStatusCode);
+        softAssert.assertNotNull(response.jsonPath().getString("accessToken"), Messages.tokenIsNull);
+        softAssert.assertAll();
     }
 
-    @Test
+    @Test(testName = "Ошибка авторизации пользователя с некорректной почтой")
     @Feature("Авторизация пользователя")
     @Description("Тест авторизации с невалидными данными")
     public void givenIncorrectEmailCredentials_whenLogin_thenUnauthorized() {
+        SoftAssert softAssert = new SoftAssert();
         requestBody = new JSONObject();
         requestBody.put("email", Constants.incorrectEmailUser);
         requestBody.put("password", Constants.correctPasswordUser);
@@ -49,15 +50,16 @@ public class LoginTests {
                 .when()
                 .post();
 
-        assertions.assertEquals(response.statusCode(), 401, Messages.incorrectStatusCode);
-        assertions.assertTrue(response.jsonPath().getString("message").equals(Messages.unauthorized), Messages.userNotAuthorized);
-        assertions.assertAll();
+        softAssert.assertEquals(response.statusCode(), 401, Messages.incorrectStatusCode);
+        softAssert.assertTrue(response.jsonPath().getString("message").equals(Messages.unauthorized), Messages.userNotAuthorized);
+        softAssert.assertAll();
     }
 
-    @Test
+    @Test(testName = "Ошибка авторизации пользователя с неподходящим паролем")
     @Feature("Авторизация пользователя")
     @Description("Тест авторизации с невалидными данными")
     public void givenIncorrectPasswordCredentials_whenLogin_thenUnauthorized() {
+        SoftAssert softAssert = new SoftAssert();
         requestBody = new JSONObject();
         requestBody.put("email", Constants.correctEmailUser);
         requestBody.put("password", Constants.incorrectPasswordUser);
@@ -68,8 +70,8 @@ public class LoginTests {
                 .when()
                 .post();
 
-        assertions.assertEquals(response.statusCode(), 401, Messages.incorrectStatusCode);
-        assertions.assertTrue(response.jsonPath().getString("message").equals(Messages.unauthorized), Messages.unauthorized);
-        assertions.assertAll();
+        softAssert.assertEquals(response.statusCode(), 401, Messages.incorrectStatusCode);
+        softAssert.assertTrue(response.jsonPath().getString("message").equals(Messages.unauthorized), Messages.unauthorized);
+        softAssert.assertAll();
     }
 }
