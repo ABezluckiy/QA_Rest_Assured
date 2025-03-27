@@ -12,10 +12,17 @@ public class Messages {
     public final static String idNotMatching = "Id not matching.";
     public final static String paramIsValid = "Param is valid.";
     public final static String requestIsCorrect = "Request is correct.";
-    public final static String userFirstNameNotChanged = "User firstname do not changed";
-    public final static String userLastNameNotChanged = "User lastname do not changed";
+    public final static String userFirstNameNotChanged = "User firstname do not changed.";
+    public final static String userLastNameNotChanged = "User lastname do not changed.";
     public final static String firstNameShouldBeEmpty = "Firstname should be empty.";
     public final static String lastNameShouldBeEmpty = "Lastname should be empty.";
+    public final static String newsIdIsEmpty = "News id is empty";
+    public final static String titleNotMatching = "Title not matching.";
+    public final static String descriptionNotMatching = "Description not matching.";
+    public final static String tagsNotMatching = "Tags not matching.";
+    public final static String userAuthorized = "User authorized.";
+    public final static String textNotEmpty = "Text not empty.";
+    public final static String titleNotEmpty = "Title not empty.";
 
     // Server messages
     public final static String validationError = "Validation error";
@@ -28,4 +35,6 @@ public class Messages {
     public final static String validationFailed = "Validation failed (numeric string is expected)";
     public final static String firstNameShouldNotBeEmpty = "firstName should not be empty";
     public final static String lastNameShouldNotBeEmpty = "lastName should not be empty";
+    public final static String titleShouldNotBeEmpty = "title should not be empty";
+    public final static String textShouldNotBeEmpty = "text should not be empty";
 }
