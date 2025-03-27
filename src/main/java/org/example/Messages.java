@@ -30,6 +30,7 @@ public class Messages {
     public final static String authorMismatched = "Author mismatched.";
     public final static String postIdIsNumber = "Post id is number.";
     public final static String commentTextMismatched = "Comment text mismatched";
+    public final static String commentWasFound = "Comment was found.";
 
     // Server messages
     public final static String validationError = "Validation error";

@@ -67,7 +67,31 @@ public class Methods {
     }
 
     public void deletePostAfterUsing() {
+        Response loginForDelete = getDefaultUserInfo();
+        String userId = loginForDelete.jsonPath().getString("user.id");
+        String token = loginForDelete.jsonPath().getString("accessToken");
 
+        String newsId = RestAssured
+                .given()
+                    .baseUri(endpoints.baseUrl)
+                    .basePath(endpoints.getPosts)
+                    .queryParam("authorId", userId)
+                .when()
+                .get()
+                .jsonPath()
+                .getString("posts.id")
+                .replace('[', ' ')
+                .replace(']', ' ')
+                .trim();
+
+        RestAssured
+                .given()
+                    .baseUri(endpoints.baseUrl)
+                    .basePath(endpoints.deletePostById)
+                    .pathParam("id", newsId)
+                    .header("Authorization", "Bearer " + token)
+                .when()
+                .delete();
     }
 
     public String getCommentId () {
@@ -81,12 +105,12 @@ public class Methods {
 
         Response response = RestAssured
                 .given()
-                .baseUri(endpoints.baseUrl)
-                .basePath(endpoints.createComment)
-                .header("Authorization", "Bearer " + token)
-                .header("Content-Type", "application/json")
-                .body(requestBody.toString())
-                .when()
+                    .baseUri(endpoints.baseUrl)
+                    .basePath(endpoints.createComment)
+                    .header("Authorization", "Bearer " + token)
+                    .header("Content-Type", "application/json")
+                    .body(requestBody.toString())
+                    .when()
                 .post();
 
         return response.jsonPath().getString("id");
