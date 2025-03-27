@@ -9,10 +9,29 @@ import org.json.JSONObject;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class NegativeLoginTests {
+public class LoginTests {
     private final Endpoints endpoints = new Endpoints();
-    private JSONObject requestBody;
     private final RequestSpecification loginUrl = RestAssured.given().baseUri(endpoints.baseUrl).basePath(endpoints.login);
+    private JSONObject requestBody;
+
+    @Test(testName = "Успешная авторизация пользователя с валидными данными")
+    @Feature("Авторизация пользователя")
+    public void givenValidCredentials_whenLogin_thenSuccess() {
+        SoftAssert softAssert = new SoftAssert();
+        requestBody = new JSONObject();
+        requestBody.put("email", Constants.correctEmailUser);
+        requestBody.put("password", Constants.correctPasswordUser);
+
+        Response response = loginUrl
+                .header("Content-Type", "application/json")
+                .body(requestBody.toString())
+                .when()
+                .post();
+
+        softAssert.assertEquals(response.statusCode(), 200, Messages.incorrectStatusCode);
+        softAssert.assertNotNull(response.jsonPath().getString("accessToken"), Messages.tokenIsNull);
+        softAssert.assertAll();
+    }
 
     @Test(testName = "Ошибка авторизации пользователя с некорректной почтой")
     @Feature("Авторизация пользователя")

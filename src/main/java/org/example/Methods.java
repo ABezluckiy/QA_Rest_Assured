@@ -45,7 +45,7 @@ public class Methods {
                 .patch();
     }
 
-    public Response createNewsBeforeUsing(
+    public Response createPostBeforeUsing(
             String title,
             String description,
             String[] tags,
@@ -65,7 +65,7 @@ public class Methods {
                 .post();
     }
 
-    public void deleteNewsAfterUsing(String id, String token) {
+    public void deletePostAfterUsing(String id, String token) {
         RestAssured
                 .given()
                 .baseUri(endpoints.baseUrl)
