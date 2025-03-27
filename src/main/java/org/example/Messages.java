@@ -16,7 +16,7 @@ public class Messages {
     public final static String userLastNameNotChanged = "User lastname do not changed.";
     public final static String firstNameShouldBeEmpty = "Firstname should be empty.";
     public final static String lastNameShouldBeEmpty = "Lastname should be empty.";
-    public final static String newsIdIsEmpty = "News id is empty";
+    public final static String postIdIsEmpty = "Post id is empty";
     public final static String titleNotMatching = "Title not matching.";
     public final static String descriptionNotMatching = "Description not matching.";
     public final static String tagsNotMatching = "Tags not matching.";
@@ -25,6 +25,7 @@ public class Messages {
     public final static String titleNotEmpty = "Title not empty.";
     public final static String sizeNotMatching = "Size not matching";
     public final static String serverMustBeReturnError = "Server must be return error.";
+    public final static String postWasFound = "Post was found.";
 
     // Server messages
     public final static String validationError = "Validation error";
@@ -40,4 +41,5 @@ public class Messages {
     public final static String titleShouldNotBeEmpty = "title should not be empty";
     public final static String textShouldNotBeEmpty = "text should not be empty";
     public final static String internalServerError = "Internal Server Error";
+    public final static String notFound = "Not Found";
 }

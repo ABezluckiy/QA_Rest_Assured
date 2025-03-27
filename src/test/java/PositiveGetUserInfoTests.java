@@ -7,7 +7,7 @@ import org.example.Methods;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class PositiveGetUserTests {
+public class PositiveGetUserInfoTests {
     private final Endpoints endpoints = new Endpoints();
     private final Methods methods = new Methods();
 

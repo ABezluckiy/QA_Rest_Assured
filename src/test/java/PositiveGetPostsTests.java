@@ -59,7 +59,7 @@ public class PositiveGetPostsTests {
                 .get();
 
         softAssert.assertEquals(response.statusCode(), 200, Messages.incorrectStatusCode);
-        softAssert.assertNotNull(response.jsonPath().getString("id"), Messages.newsIdIsEmpty);
+        softAssert.assertNotNull(response.jsonPath().getString("id"), Messages.postIdIsEmpty);
         softAssert.assertEquals(response.jsonPath().getString("authorId"), userId, Messages.idNotMatching);
         softAssert.assertEquals(response.jsonPath().getString("title"), title, Messages.titleNotMatching);
         softAssert.assertEquals(response.jsonPath().getString("text"), description, Messages.descriptionNotMatching);

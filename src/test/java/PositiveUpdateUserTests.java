@@ -5,6 +5,7 @@ import org.example.Endpoints;
 import org.example.Messages;
 import org.example.Methods;
 import org.json.JSONObject;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 

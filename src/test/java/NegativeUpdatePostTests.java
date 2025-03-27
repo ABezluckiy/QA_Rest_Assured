@@ -42,5 +42,7 @@ public class NegativeUpdatePostTests {
         softAssert.assertEquals(response.jsonPath().getString("error"), Messages.badRequest, Messages.requestIsCorrect);
 
         softAssert.assertAll();
+
+        methods.deleteNewsAfterUsing(createdNewsForUpdate.jsonPath().getString("id"), token);
     }
 }

@@ -7,7 +7,6 @@ import org.example.Messages;
 import org.example.Methods;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-
 import java.io.File;
 
 public class PositiveCreatePostTests {
@@ -40,7 +39,7 @@ public class PositiveCreatePostTests {
                 .post();
 
         softAssert.assertEquals(response.statusCode(), 201, Messages.incorrectStatusCode);
-        softAssert.assertNotNull(response.jsonPath().getString("id"), Messages.newsIdIsEmpty);
+        softAssert.assertNotNull(response.jsonPath().getString("id"), Messages.postIdIsEmpty);
         softAssert.assertEquals(response.jsonPath().getString("authorId"), userId, Messages.idNotMatching);
         softAssert.assertEquals(response.jsonPath().getString("title"), title, Messages.titleNotMatching);
         softAssert.assertEquals(response.jsonPath().getString("text"), description, Messages.descriptionNotMatching);

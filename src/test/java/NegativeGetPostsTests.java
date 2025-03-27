@@ -1,10 +1,8 @@
 import io.qameta.allure.Feature;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.example.Constants;
 import org.example.Endpoints;
 import org.example.Messages;
-import org.example.Methods;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 

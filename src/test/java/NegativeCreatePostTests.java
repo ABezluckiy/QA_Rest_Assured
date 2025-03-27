@@ -7,7 +7,6 @@ import org.example.Messages;
 import org.example.Methods;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-
 import java.io.File;
 
 public class NegativeCreatePostTests {

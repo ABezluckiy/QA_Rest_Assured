@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-
 public class NegativeUpdateUserTests {
     private final Endpoints endpoints = new Endpoints();
     private final Methods methods = new Methods();

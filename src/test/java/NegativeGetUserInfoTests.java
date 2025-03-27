@@ -7,7 +7,7 @@ import org.example.Messages;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class NegativeGetUserTests {
+public class NegativeGetUserInfoTests {
     private final Endpoints endpoints = new Endpoints();
 
     @Test(testName = "Ошибка получения данных пользователя с невалидным токеном")
