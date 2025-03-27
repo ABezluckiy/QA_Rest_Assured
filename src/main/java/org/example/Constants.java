@@ -17,4 +17,5 @@ public class Constants {
     public static final String newsDescription = methods.getUniqueString() + " description";
     public static final String[] newsTags = {"tag1-" + methods.getUniqueString(), "tag2-" + methods.getUniqueString()};
     public static final String newsImage = "src/test/resources/images/news.png";
+    public static final int newsLimit = 1;
 }

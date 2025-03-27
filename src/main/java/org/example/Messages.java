@@ -23,6 +23,7 @@ public class Messages {
     public final static String userAuthorized = "User authorized.";
     public final static String textNotEmpty = "Text not empty.";
     public final static String titleNotEmpty = "Title not empty.";
+    public final static String sizeNotMatching = "Size not matching";
 
     // Server messages
     public final static String validationError = "Validation error";

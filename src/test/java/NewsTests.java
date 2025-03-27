@@ -110,4 +110,101 @@ public class NewsTests {
 
         softAssert.assertAll();
     }
+
+    @Test(testName = "Получение всех новостей с ограничением количества")
+    @Feature("Работа с новостями")
+    public void givenValidPageableParameters_whenGetNewsList_thenReturnedPageableNewsList() {
+        Response login = methods.getDefaultUserInfo();
+        String token = login.jsonPath().getString("accessToken");
+        SoftAssert softAssert = new SoftAssert();
+        String title = Constants.newsName;
+        String description = Constants.newsDescription;
+        String image = Constants.newsImage;
+        String[] tags = Constants.newsTags;
+        Response createdNewsForGet = RestAssured
+                .given()
+                .baseUri(endpoints.baseUrl)
+                .basePath(endpoints.createPost)
+                .header("Authorization", "Bearer " + token)
+                .multiPart("title", title)
+                .multiPart("text", description)
+                .multiPart("tags", tags[0])
+                .multiPart("tags", tags[1])
+                .multiPart("file", new File(image), "image/png")
+                .when()
+                .post();
+
+        Response response = RestAssured
+                .given()
+                .baseUri(endpoints.baseUrl)
+                .basePath(endpoints.getPosts)
+                .queryParam("limit", Constants.newsLimit)
+                .when()
+                .get();
+
+        softAssert.assertEquals(response.statusCode(), 200, Messages.incorrectStatusCode);
+        softAssert.assertEquals(response.jsonPath().getList("posts").size(), Constants.newsLimit, Messages.sizeNotMatching);
+
+        softAssert.assertAll();
+        RestAssured
+                .given()
+                .baseUri(endpoints.baseUrl)
+                .basePath(endpoints.deletePostById)
+                .pathParam("id", createdNewsForGet.jsonPath().getString("id"))
+                .header("Authorization", "Bearer " + token)
+                .when()
+                .delete();
+    }
+
+    @Test(testName = "Получение новости по уникальному идентификатору")
+    @Feature("Работа с новостями")
+    public void givenValidNewsId_whenGetNews_thenReturnedNewsInfo() {
+        Response login = methods.getDefaultUserInfo();
+        String token = login.jsonPath().getString("accessToken");
+        String userId = login.jsonPath().getString("user.id");
+        SoftAssert softAssert = new SoftAssert();
+        String title = Constants.newsName;
+        String description = Constants.newsDescription;
+        String image = Constants.newsImage;
+        String[] tags = Constants.newsTags;
+
+        Response createdNewsForSearch = RestAssured
+                .given()
+                .baseUri(endpoints.baseUrl)
+                .basePath(endpoints.createPost)
+                .header("Authorization", "Bearer " + token)
+                .multiPart("title", title)
+                .multiPart("text", description)
+                .multiPart("tags", tags[0])
+                .multiPart("tags", tags[1])
+                .multiPart("file", new File(image), "image/png")
+                .when()
+                .post();
+
+        Response response = RestAssured
+                .given()
+                .baseUri(endpoints.baseUrl)
+                .basePath(endpoints.getPostById)
+                .pathParam("id", createdNewsForSearch.jsonPath().getString("id"))
+                .when()
+                .get();
+
+        softAssert.assertEquals(response.statusCode(), 200, Messages.incorrectStatusCode);
+        softAssert.assertNotNull(response.jsonPath().getString("id"), Messages.newsIdIsEmpty);
+        softAssert.assertEquals(response.jsonPath().getString("authorId"), userId, Messages.idNotMatching);
+        softAssert.assertEquals(response.jsonPath().getString("title"), title, Messages.titleNotMatching);
+        softAssert.assertEquals(response.jsonPath().getString("text"), description, Messages.descriptionNotMatching);
+        softAssert.assertNotNull(response.jsonPath().getList("tags"), Messages.tagsNotMatching);
+
+        softAssert.assertAll();
+
+        RestAssured
+                .given()
+                .baseUri(endpoints.baseUrl)
+                .basePath(endpoints.deletePostById)
+                .pathParam("id", createdNewsForSearch.jsonPath().getString("id"))
+                .header("Authorization", "Bearer " + token)
+                .when()
+                .delete();
+    }
 }
