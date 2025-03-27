@@ -1,5 +1,6 @@
 package org.example;
 
+import java.io.File;
 import java.util.UUID;
 
 import io.restassured.RestAssured;
@@ -42,5 +43,36 @@ public class Methods {
                 .body(returnUserData.toString())
                 .when()
                 .patch();
+    }
+
+    public Response createNewsBeforeUsing(
+            String title,
+            String description,
+            String[] tags,
+            String image,
+            String token) {
+        return RestAssured
+                .given()
+                .baseUri(endpoints.baseUrl)
+                .basePath(endpoints.createPost)
+                .header("Authorization", "Bearer " + token)
+                .multiPart("title", title)
+                .multiPart("text", description)
+                .multiPart("tags", tags[0])
+                .multiPart("tags", tags[1])
+                .multiPart("file", new File(image), "image/png")
+                .when()
+                .post();
+    }
+
+    public void deleteNewsAfterUsing(String id, String token) {
+        RestAssured
+                .given()
+                .baseUri(endpoints.baseUrl)
+                .basePath(endpoints.deletePostById)
+                .pathParam("id", id)
+                .header("Authorization", "Bearer " + token)
+                .when()
+                .delete();
     }
 }

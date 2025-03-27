@@ -24,6 +24,7 @@ public class Messages {
     public final static String textNotEmpty = "Text not empty.";
     public final static String titleNotEmpty = "Title not empty.";
     public final static String sizeNotMatching = "Size not matching";
+    public final static String serverMustBeReturnError = "Server must be return error.";
 
     // Server messages
     public final static String validationError = "Validation error";
@@ -38,4 +39,5 @@ public class Messages {
     public final static String lastNameShouldNotBeEmpty = "lastName should not be empty";
     public final static String titleShouldNotBeEmpty = "title should not be empty";
     public final static String textShouldNotBeEmpty = "text should not be empty";
+    public final static String internalServerError = "Internal Server Error";
 }
