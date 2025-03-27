@@ -7,7 +7,7 @@ import org.example.Methods;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class DeleteCommentFromPost {
+public class DeleteCommentFromPostTests {
     private final Methods methods = new Methods();
     private final Endpoints endpoints = new Endpoints();
 
