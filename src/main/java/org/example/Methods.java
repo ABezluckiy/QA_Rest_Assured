@@ -9,6 +9,11 @@ import org.json.JSONObject;
 
 public class Methods {
     private static final Endpoints endpoints = new Endpoints();
+    private final String title = Constants.postName;
+    private final String description = Constants.postDescription;
+    private final String image = Constants.postImage;
+    private final String[] tags = Constants.postTags;
+    private final String comment = Constants.postComment;
 
     public String getUniqueString() {
         return UUID.randomUUID().toString();
@@ -45,12 +50,8 @@ public class Methods {
                 .patch();
     }
 
-    public Response createPostBeforeUsing(
-            String title,
-            String description,
-            String[] tags,
-            String image,
-            String token) {
+    public Response createPostBeforeUsing() {
+        String token = getDefaultUserInfo().jsonPath().getString("accessToken");
         return RestAssured
                 .given()
                 .baseUri(endpoints.baseUrl)
@@ -65,14 +66,53 @@ public class Methods {
                 .post();
     }
 
-    public void deletePostAfterUsing(String id, String token) {
+    public void deletePostAfterUsing() {
+        Response loginForDelete = getDefaultUserInfo();
+        String userId = loginForDelete.jsonPath().getString("user.id");
+        String token = loginForDelete.jsonPath().getString("accessToken");
+
+        String newsId = RestAssured
+                .given()
+                    .baseUri(endpoints.baseUrl)
+                    .basePath(endpoints.getPosts)
+                    .queryParam("authorId", userId)
+                .when()
+                .get()
+                .jsonPath()
+                .getString("posts.id")
+                .replace('[', ' ')
+                .replace(']', ' ')
+                .trim();
+
         RestAssured
                 .given()
-                .baseUri(endpoints.baseUrl)
-                .basePath(endpoints.deletePostById)
-                .pathParam("id", id)
-                .header("Authorization", "Bearer " + token)
+                    .baseUri(endpoints.baseUrl)
+                    .basePath(endpoints.deletePostById)
+                    .pathParam("id", newsId)
+                    .header("Authorization", "Bearer " + token)
                 .when()
                 .delete();
+    }
+
+    public String getCommentId () {
+        JSONObject requestBody = new JSONObject();
+        String token = getDefaultUserInfo().jsonPath().getString("accessToken");
+
+        Response createPostForAddComment = createPostBeforeUsing();
+        String postId = createPostForAddComment.jsonPath().getString("id");
+        requestBody.put("postId", postId);
+        requestBody.put("text", comment);
+
+        Response response = RestAssured
+                .given()
+                .baseUri(endpoints.baseUrl)
+                .basePath(endpoints.createComment)
+                .header("Authorization", "Bearer " + token)
+                .header("Content-Type", "application/json")
+                .body(requestBody.toString())
+                .when()
+                .post();
+
+        return response.jsonPath().getString("id");
     }
 }

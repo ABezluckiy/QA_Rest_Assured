@@ -29,6 +29,7 @@ public class Messages {
     public final static String commentIdMustBePresent = "Comment id must be present.";
     public final static String authorMismatched = "Author mismatched.";
     public final static String postIdIsNumber = "Post id is number.";
+    public final static String commentTextMismatched = "Comment text mismatched";
 
     // Server messages
     public final static String validationError = "Validation error";

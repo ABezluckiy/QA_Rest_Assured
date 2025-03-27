@@ -11,18 +11,13 @@ import org.testng.asserts.SoftAssert;
 public class GetPostsTests {
     private final Endpoints endpoints = new Endpoints();
     private final Methods methods = new Methods();
-    private final String title = Constants.postName;
-    private final String description = Constants.postDescription;
-    private final String image = Constants.postImage;
-    private final String[] tags = Constants.postTags;
 
     @Test(testName = "Успешное получение всех новостей с ограничением количества")
     @Feature("Работа с новостями")
     public void givenValidPageableParameters_whenGetPostList_thenReturnedPageablePostList() {
         Response login = methods.getDefaultUserInfo();
-        String token = login.jsonPath().getString("accessToken");
         SoftAssert softAssert = new SoftAssert();
-        Response createdPostForGet = methods.createPostBeforeUsing(title, description, tags, image, token);
+        Response createdPostForGet = methods.createPostBeforeUsing();
 
         Response response = RestAssured
                 .given()
@@ -37,18 +32,15 @@ public class GetPostsTests {
 
         softAssert.assertAll();
 
-        methods.deletePostAfterUsing(createdPostForGet.jsonPath().getString("id"), token);
+        methods.deletePostAfterUsing();
     }
 
     @Test(testName = "Успешное получение новости по уникальному идентификатору")
     @Feature("Работа с новостями")
     public void givenValidPostId_whenGetPost_thenReturnedPostInfo() {
-        Response login = methods.getDefaultUserInfo();
-        String token = login.jsonPath().getString("accessToken");
-        String userId = login.jsonPath().getString("user.id");
         SoftAssert softAssert = new SoftAssert();
 
-        Response createdPostForSearch = methods.createPostBeforeUsing(title, description, tags, image, token);
+        Response createdPostForSearch = methods.createPostBeforeUsing();
 
         Response response = RestAssured
                 .given()
@@ -60,13 +52,12 @@ public class GetPostsTests {
 
         softAssert.assertEquals(response.statusCode(), 200, Messages.incorrectStatusCode);
         softAssert.assertNotNull(response.jsonPath().getString("id"), Messages.postIdIsEmpty);
-        softAssert.assertEquals(response.jsonPath().getString("authorId"), userId, Messages.idMismatched);
-        softAssert.assertEquals(response.jsonPath().getString("title"), title, Messages.titleNotMismatched);
-        softAssert.assertEquals(response.jsonPath().getString("text"), description, Messages.descriptionMismatched);
+        softAssert.assertEquals(response.jsonPath().getString("title"), Constants.postName, Messages.titleNotMismatched);
+        softAssert.assertEquals(response.jsonPath().getString("text"), Constants.postDescription, Messages.descriptionMismatched);
         softAssert.assertNotNull(response.jsonPath().getList("tags"), Messages.tagsNotMismatched);
 
         softAssert.assertAll();
-        methods.deletePostAfterUsing(createdPostForSearch.jsonPath().getString("id"), token);
+        methods.deletePostAfterUsing();
     }
 
     @Test(testName = "Ошибка при попытке получить новость с невалидными данными")

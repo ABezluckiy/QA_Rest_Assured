@@ -12,10 +12,6 @@ import org.testng.asserts.SoftAssert;
 public class CreateCommentOnPostTests {
     private final Methods methods = new Methods();
     private final Endpoints endpoints = new Endpoints();
-    private final String title = Constants.postName;
-    private final String description = Constants.postDescription;
-    private final String image = Constants.postImage;
-    private final String[] tags = Constants.postTags;
     private final String comment = Constants.postComment;
 
     @Test(testName = "Успешное создание комментария к посту")
@@ -26,7 +22,7 @@ public class CreateCommentOnPostTests {
         String userId = login.jsonPath().getString("user.id");
         SoftAssert softAssert = new SoftAssert();
         JSONObject requestBody = new JSONObject();
-        Response createPostForAddComment = methods.createPostBeforeUsing(title, description, tags, image, token);
+        Response createPostForAddComment = methods.createPostBeforeUsing();
         String postId = createPostForAddComment.jsonPath().getString("id");
         requestBody.put("postId", postId);
         requestBody.put("text", comment);
@@ -49,7 +45,7 @@ public class CreateCommentOnPostTests {
 
         softAssert.assertAll();
 
-        methods.deletePostAfterUsing(postId, token);
+        methods.deletePostAfterUsing();
     }
 
     @Test(testName = "Ошибка при создании пустого комментария к посту")
@@ -59,7 +55,7 @@ public class CreateCommentOnPostTests {
         String token = login.jsonPath().getString("accessToken");
         SoftAssert softAssert = new SoftAssert();
         JSONObject requestBody = new JSONObject();
-        Response createPostForAddComment = methods.createPostBeforeUsing(title, description, tags, image, token);
+        Response createPostForAddComment = methods.createPostBeforeUsing();
         String postId = createPostForAddComment.jsonPath().getString("id");
         requestBody.put("postId", postId);
         requestBody.put("text", "");
@@ -80,7 +76,7 @@ public class CreateCommentOnPostTests {
 
         softAssert.assertAll();
 
-        methods.deletePostAfterUsing(postId, token);
+        methods.deletePostAfterUsing();
     }
 
     @Test(testName = "Ошибка создания комментария к посту с несуществующим id")
@@ -90,7 +86,7 @@ public class CreateCommentOnPostTests {
         String token = login.jsonPath().getString("accessToken");
         SoftAssert softAssert = new SoftAssert();
         JSONObject requestBody = new JSONObject();
-        Response createPostForAddComment = methods.createPostBeforeUsing(title, description, tags, image, token);
+        Response createPostForAddComment = methods.createPostBeforeUsing();
         String postId = createPostForAddComment.jsonPath().getString("id");
         requestBody.put("postId", -1);
         requestBody.put("text", comment);
@@ -110,7 +106,7 @@ public class CreateCommentOnPostTests {
 
         softAssert.assertAll();
 
-        methods.deletePostAfterUsing(postId, token);
+        methods.deletePostAfterUsing();
     }
 
     @Test(testName = "Ошибка создания комментария к посту с невалидным id")
@@ -120,7 +116,7 @@ public class CreateCommentOnPostTests {
         String token = login.jsonPath().getString("accessToken");
         SoftAssert softAssert = new SoftAssert();
         JSONObject requestBody = new JSONObject();
-        Response createPostForAddComment = methods.createPostBeforeUsing(title, description, tags, image, token);
+        Response createPostForAddComment = methods.createPostBeforeUsing();
         String postId = createPostForAddComment.jsonPath().getString("id");
         requestBody.put("postId", "invalid");
         requestBody.put("text", comment);
@@ -141,6 +137,6 @@ public class CreateCommentOnPostTests {
 
         softAssert.assertAll();
 
-        methods.deletePostAfterUsing(postId, token);
+        methods.deletePostAfterUsing();
     }
 }

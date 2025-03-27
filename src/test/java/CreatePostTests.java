@@ -46,7 +46,7 @@ public class CreatePostTests {
         softAssert.assertNotNull(response.jsonPath().getList("tags"), Messages.tagsNotMismatched);
 
         softAssert.assertAll();
-        methods.deletePostAfterUsing(response.jsonPath().getString("id"), token);
+        methods.deletePostAfterUsing();
     }
 
     @Test(testName = "Ошибка при создании новости без авторизации")

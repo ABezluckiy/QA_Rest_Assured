@@ -11,11 +11,6 @@ import org.testng.asserts.SoftAssert;
 public class DeletePostTests {
     private final Endpoints endpoints = new Endpoints();
     private final Methods methods = new Methods();
-    private final String title = Constants.postName;
-    private final String description = Constants.postDescription;
-    private final String image = Constants.postImage;
-    private final String[] tags = Constants.postTags;
-
 
     @Test(testName = "Успешное удаление новости")
     @Feature("Работа с удалением новостей")
@@ -23,8 +18,7 @@ public class DeletePostTests {
         Response login = methods.getDefaultUserInfo();
         String token = login.jsonPath().getString("accessToken");
         SoftAssert softAssert = new SoftAssert();
-
-        Response createdPostForDelete = methods.createPostBeforeUsing(title, description, tags, image, token);
+        Response createdPostForDelete = methods.createPostBeforeUsing();
 
         Response response = RestAssured
                 .given()
@@ -46,7 +40,7 @@ public class DeletePostTests {
         String token = login.jsonPath().getString("accessToken");
         SoftAssert softAssert = new SoftAssert();
 
-        Response createdPostForDelete = methods.createPostBeforeUsing(title, description, tags, image, token);
+        methods.createPostBeforeUsing();
 
         Response response = RestAssured
                 .given()
@@ -61,7 +55,7 @@ public class DeletePostTests {
         softAssert.assertEquals(response.jsonPath().getString("message"), Messages.notFound, Messages.postWasFound);
         softAssert.assertAll();
 
-        methods.deletePostAfterUsing(createdPostForDelete.jsonPath().getString("id"), token);
+        methods.deletePostAfterUsing();
     }
 
     @Test(testName = "Ошибка при удалении новости с некорректным типом данных id")
@@ -71,7 +65,7 @@ public class DeletePostTests {
         String token = login.jsonPath().getString("accessToken");
         SoftAssert softAssert = new SoftAssert();
 
-        Response createdPostForDelete = methods.createPostBeforeUsing(title, description, tags, image, token);
+        methods.createPostBeforeUsing();
 
         Response response = RestAssured
                 .given()
@@ -86,6 +80,6 @@ public class DeletePostTests {
         softAssert.assertEquals(response.jsonPath().getString("message"), Messages.validationFailed, Messages.paramIsValid);
         softAssert.assertAll();
 
-        methods.deletePostAfterUsing(createdPostForDelete.jsonPath().getString("id"), token);
+        methods.deletePostAfterUsing();
     }
 }

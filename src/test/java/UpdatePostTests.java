@@ -11,10 +11,6 @@ import org.testng.asserts.SoftAssert;
 public class UpdatePostTests {
     private final Endpoints endpoints = new Endpoints();
     private final Methods methods = new Methods();
-    private final String title = Constants.postName;
-    private final String description = Constants.postDescription;
-    private final String image = Constants.postImage;
-    private final String[] tags = Constants.postTags;
     private final String newTitle = methods.getUniqueString();
     private final String newDescription = methods.getUniqueString();
 
@@ -25,7 +21,7 @@ public class UpdatePostTests {
         String token = login.jsonPath().getString("accessToken");
         SoftAssert softAssert = new SoftAssert();
 
-        Response createdPostForUpdate = methods.createPostBeforeUsing(title, description, tags, image, token);
+        Response createdPostForUpdate = methods.createPostBeforeUsing();
 
         Response response = RestAssured
                 .given()
@@ -45,7 +41,7 @@ public class UpdatePostTests {
 
         softAssert.assertAll();
 
-        methods.deletePostAfterUsing(createdPostForUpdate.jsonPath().getString("id"), token);
+        methods.deletePostAfterUsing();
     }
 
     @Test(testName = "Ошибка при изменении названия и описания новости пустыми значениями")
@@ -55,7 +51,7 @@ public class UpdatePostTests {
         String token = login.jsonPath().getString("accessToken");
         SoftAssert softAssert = new SoftAssert();
 
-        Response createdPostForUpdate = methods.createPostBeforeUsing(title, description, tags, image, token);
+        Response createdPostForUpdate = methods.createPostBeforeUsing();
 
         Response response = RestAssured
                 .given()
@@ -75,6 +71,6 @@ public class UpdatePostTests {
 
         softAssert.assertAll();
 
-        methods.deletePostAfterUsing(createdPostForUpdate.jsonPath().getString("id"), token);
+        methods.deletePostAfterUsing();
     }
 }
