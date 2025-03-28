@@ -8,21 +8,17 @@ import org.example.Methods;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class GetUserInfoTests {
-    private final Endpoints endpoints = new Endpoints();
-    private final Methods methods = new Methods();
-
+public class GetUserInfoTests extends BaseTestForUser{
     @Test(testName = "Успешное получение данных пользователя из токена")
     @Feature("Работа с данными пользователя")
     public void givenValidToken_whenGetUserInfo_thenUserInfoReturned() {
         SoftAssert softAssert = new SoftAssert();
-        String token = methods.getDefaultUserInfo().jsonPath().getString("accessToken");
 
         Response response = RestAssured
                 .given()
-                .baseUri(endpoints.baseUrl)
-                .basePath(endpoints.getCurrentUserInfoByToken)
-                .header("Authorization", "Bearer " + token)
+                    .baseUri(endpoints.baseUrl)
+                    .basePath(endpoints.getCurrentUserInfoByToken)
+                    .header("Authorization", "Bearer " + token)
                 .when()
                 .get();
 
@@ -37,18 +33,17 @@ public class GetUserInfoTests {
     @Feature("Работа с данными пользователями")
     public void givenValidUserId_whenGetUserInfo_thenUserInfoReturned() {
         SoftAssert softAssert = new SoftAssert();
-        String id = methods.getDefaultUserInfo().jsonPath().getString("user.id");
 
         Response response = RestAssured
                 .given()
-                .baseUri(endpoints.baseUrl)
-                .basePath(endpoints.getUserInfoById)
-                .pathParam("id", id)
+                    .baseUri(endpoints.baseUrl)
+                    .basePath(endpoints.getUserInfoById)
+                    .pathParam("id", userId)
                 .when()
                 .get();
 
         softAssert.assertEquals(response.statusCode(), 200, Messages.incorrectStatusCode);
-        softAssert.assertEquals(response.jsonPath().getString("id"), id, Messages.idMismatched);
+        softAssert.assertEquals(response.jsonPath().getString("id"), userId, Messages.idMismatched);
 
         softAssert.assertAll();
     }
@@ -57,11 +52,12 @@ public class GetUserInfoTests {
     @Feature("Работа с данными пользователями")
     public void givenEmptyToken_whenGetUserInfo_thenUnauthorizedReturned() {
         SoftAssert softAssert = new SoftAssert();
+
         Response response = RestAssured
                 .given()
-                .baseUri(endpoints.baseUrl)
-                .basePath(endpoints.getCurrentUserInfoByToken)
-                .header("Authorization", "")
+                    .baseUri(endpoints.baseUrl)
+                    .basePath(endpoints.getCurrentUserInfoByToken)
+                    .header("Authorization", "")
                 .when()
                 .get();
 
@@ -78,9 +74,9 @@ public class GetUserInfoTests {
         SoftAssert softAssert = new SoftAssert();
         Response response = RestAssured
                 .given()
-                .baseUri(endpoints.baseUrl)
-                .basePath(endpoints.getUserInfoById)
-                .pathParam("id", "userId")
+                    .baseUri(endpoints.baseUrl)
+                    .basePath(endpoints.getUserInfoById)
+                    .pathParam("id", "userId")
                 .when()
                 .get();
 

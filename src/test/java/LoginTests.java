@@ -48,7 +48,7 @@ public class LoginTests {
                 .post();
 
         softAssert.assertEquals(response.statusCode(), 401, Messages.incorrectStatusCode);
-        softAssert.assertTrue(response.jsonPath().getString("message").equals(Messages.unauthorized), Messages.userNotAuthorized);
+        softAssert.assertTrue(response.jsonPath().getString("message").equals(Messages.unauthorized), Messages.userAuthorized);
         softAssert.assertAll();
     }
 
@@ -67,7 +67,7 @@ public class LoginTests {
                 .post();
 
         softAssert.assertEquals(response.statusCode(), 401, Messages.incorrectStatusCode);
-        softAssert.assertTrue(response.jsonPath().getString("message").equals(Messages.unauthorized), Messages.unauthorized);
+        softAssert.assertTrue(response.jsonPath().getString("message").equals(Messages.unauthorized), Messages.userAuthorized);
         softAssert.assertAll();
     }
 }

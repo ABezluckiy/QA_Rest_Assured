@@ -2,28 +2,21 @@ import io.qameta.allure.Feature;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.example.Constants;
-import org.example.Endpoints;
 import org.example.Messages;
-import org.example.Methods;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class GetPostsTests {
-    private final Endpoints endpoints = new Endpoints();
-    private final Methods methods = new Methods();
-
+public class GetPostsTests extends BaseTestForPostAndComments{
     @Test(testName = "Успешное получение всех новостей с ограничением количества")
     @Feature("Работа с новостями")
     public void givenValidPageableParameters_whenGetPostList_thenReturnedPageablePostList() {
-        Response login = methods.getDefaultUserInfo();
         SoftAssert softAssert = new SoftAssert();
-        Response createdPostForGet = methods.createPostBeforeUsing();
 
         Response response = RestAssured
                 .given()
-                .baseUri(endpoints.baseUrl)
-                .basePath(endpoints.getPosts)
-                .queryParam("limit", Constants.postLimit)
+                    .baseUri(endpoints.baseUrl)
+                    .basePath(endpoints.getPosts)
+                    .queryParam("limit", Constants.postLimit)
                 .when()
                 .get();
 
@@ -31,8 +24,6 @@ public class GetPostsTests {
         softAssert.assertEquals(response.jsonPath().getList("posts").size(), Constants.postLimit, Messages.sizeMismatched);
 
         softAssert.assertAll();
-
-        methods.deletePostAfterUsing();
     }
 
     @Test(testName = "Успешное получение новости по уникальному идентификатору")
@@ -40,13 +31,11 @@ public class GetPostsTests {
     public void givenValidPostId_whenGetPost_thenReturnedPostInfo() {
         SoftAssert softAssert = new SoftAssert();
 
-        Response createdPostForSearch = methods.createPostBeforeUsing();
-
         Response response = RestAssured
                 .given()
-                .baseUri(endpoints.baseUrl)
-                .basePath(endpoints.getPostById)
-                .pathParam("id", createdPostForSearch.jsonPath().getString("id"))
+                    .baseUri(endpoints.baseUrl)
+                    .basePath(endpoints.getPostById)
+                    .pathParam("id", postId)
                 .when()
                 .get();
 
@@ -57,7 +46,6 @@ public class GetPostsTests {
         softAssert.assertNotNull(response.jsonPath().getList("tags"), Messages.tagsNotMismatched);
 
         softAssert.assertAll();
-        methods.deletePostAfterUsing();
     }
 
     @Test(testName = "Ошибка при попытке получить новость с невалидными данными")
@@ -67,9 +55,9 @@ public class GetPostsTests {
 
         Response response = RestAssured
                 .given()
-                .baseUri(endpoints.baseUrl)
-                .basePath(endpoints.getPosts)
-                .queryParam("limit", "text")
+                    .baseUri(endpoints.baseUrl)
+                    .basePath(endpoints.getPosts)
+                    .queryParam("limit", "text")
                 .when()
                 .get();
 

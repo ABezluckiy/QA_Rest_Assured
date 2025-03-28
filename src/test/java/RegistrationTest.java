@@ -14,8 +14,6 @@ import org.testng.asserts.SoftAssert;
 public class RegistrationTest {
     private final Endpoints endpoints = new Endpoints();
     private final RequestSpecification signUpUrl = RestAssured.given().baseUri(endpoints.baseUrl).basePath(endpoints.signup);
-    private JSONObject requestBody;
-
 
     @Ignore
     @Test(testName = "Успешная регистрация пользователя с валидными данными")
@@ -23,7 +21,7 @@ public class RegistrationTest {
     @Description("Тест регистрации пользователя с валидными данными")
     public void givenValidCredentials_whenSignUp_thenSuccess() {
         SoftAssert softAssert = new SoftAssert();
-        requestBody = new JSONObject();
+        JSONObject requestBody = new JSONObject();
 
         String userEmail = Constants.correctEmailUser;
         requestBody.put("email", userEmail);
@@ -45,7 +43,7 @@ public class RegistrationTest {
     @Feature("Регистрация пользователя")
     public void givenExistsCredentials_whenSignUp_thenError() {
         SoftAssert softAssert = new SoftAssert();
-        requestBody = new JSONObject();
+        JSONObject requestBody = new JSONObject();
 
         String userEmail = Constants.correctEmailUser;
         requestBody.put("email", userEmail);
@@ -67,7 +65,7 @@ public class RegistrationTest {
     @Feature("Регистрация пользователя")
     public void givenEmptyCredentials_whenSignUp_thenErrors() {
         SoftAssert softAssert = new SoftAssert();
-        requestBody = new JSONObject();
+        JSONObject requestBody = new JSONObject();
         requestBody.put("email", "");
         requestBody.put("password", "");
 
@@ -89,7 +87,7 @@ public class RegistrationTest {
     @Feature("Регистрация пользователя")
     public void givenEmptyEmail_whenSignUp_thenErrors() {
         SoftAssert softAssert = new SoftAssert();
-        requestBody = new JSONObject();
+        JSONObject requestBody = new JSONObject();
         requestBody.put("email", "");
         requestBody.put("password", Constants.correctPasswordUser);
 

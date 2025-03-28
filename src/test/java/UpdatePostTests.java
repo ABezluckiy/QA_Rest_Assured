@@ -1,64 +1,49 @@
 import io.qameta.allure.Feature;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.example.Constants;
-import org.example.Endpoints;
 import org.example.Messages;
-import org.example.Methods;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class UpdatePostTests {
-    private final Endpoints endpoints = new Endpoints();
-    private final Methods methods = new Methods();
+public class UpdatePostTests extends BaseTestForPostAndComments{
     private final String newTitle = methods.getUniqueString();
     private final String newDescription = methods.getUniqueString();
 
     @Test(testName = "Изменение названия и описания новости по уникальному идентификатору")
     @Feature("Работа с новостями")
     public void givenValidPostIdAndNewData_whenUpdatePost_thenReturnedPostInfo() {
-        Response login = methods.getDefaultUserInfo();
-        String token = login.jsonPath().getString("accessToken");
         SoftAssert softAssert = new SoftAssert();
-
-        Response createdPostForUpdate = methods.createPostBeforeUsing();
 
         Response response = RestAssured
                 .given()
                 .baseUri(endpoints.baseUrl)
                 .basePath(endpoints.updatePostById)
                 .header("Authorization", "Bearer " + token)
-                .pathParam("id", createdPostForUpdate.jsonPath().getString("id"))
+                .pathParam("id", postId)
                 .multiPart("title", newTitle)
                 .multiPart("text", newDescription)
                 .when()
                 .patch();
 
         softAssert.assertEquals(response.statusCode(), 200, Messages.incorrectStatusCode);
-        softAssert.assertEquals(response.jsonPath().getString("id"), createdPostForUpdate.jsonPath().getString("id"), Messages.idMismatched);
+        softAssert.assertEquals(response.jsonPath().getString("id"), postId, Messages.idMismatched);
         softAssert.assertEquals(response.jsonPath().getString("title"), newTitle, Messages.titleNotMismatched);
         softAssert.assertEquals(response.jsonPath().getString("text"), newDescription, Messages.descriptionMismatched);
 
         softAssert.assertAll();
-
-        methods.deletePostAfterUsing();
     }
 
     @Test(testName = "Ошибка при изменении названия и описания новости пустыми значениями")
     @Feature("Работа с новостями")
-    public void givenInvalidPostIdAndNewData_whenUpdatePost_thenReturnedBadRequest() {
-        Response login = methods.getDefaultUserInfo();
-        String token = login.jsonPath().getString("accessToken");
+    public void givenInvalidNewData_whenUpdatePost_thenReturnedBadRequest() {
         SoftAssert softAssert = new SoftAssert();
-
-        Response createdPostForUpdate = methods.createPostBeforeUsing();
 
         Response response = RestAssured
                 .given()
                 .baseUri(endpoints.baseUrl)
                 .basePath(endpoints.updatePostById)
                 .header("Authorization", "Bearer " + token)
-                .pathParam("id", createdPostForUpdate.jsonPath().getString("id"))
+                .pathParam("id", postId)
                 .multiPart("title", "")
                 .multiPart("text", "")
                 .when()
@@ -70,7 +55,5 @@ public class UpdatePostTests {
         softAssert.assertEquals(response.jsonPath().getString("error"), Messages.badRequest, Messages.requestIsCorrect);
 
         softAssert.assertAll();
-
-        methods.deletePostAfterUsing();
     }
 }

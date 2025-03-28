@@ -8,32 +8,24 @@ import org.json.JSONObject;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class UpdateUserTests {
-    private final Endpoints endpoints = new Endpoints();
-    private final Methods methods = new Methods();
-
+public class UpdateUserTests extends BaseTestForUser {
     @Test(testName = "Успешное изменение информации пользователя")
     @Feature("Работа с данными пользователями")
     public void givenValidNewUserInfo_whenPatchUserInfo_thenNewUserInfoUpdatedAndReturned() {
-        JSONObject requestBody = new JSONObject();
-        Response login = methods.getDefaultUserInfo();
-        String userId = login.jsonPath().getString("user.id");
-        String token = login.jsonPath().getString("accessToken");
-        String newFirstName = methods.getUniqueString();
-        String newLastName = methods.getUniqueString();
         SoftAssert softAssert = new SoftAssert();
+        JSONObject requestBody = new JSONObject();
 
         requestBody.put("firstName", newFirstName);
         requestBody.put("lastName", newLastName);
 
         Response response = RestAssured
                 .given()
-                .baseUri(endpoints.baseUrl)
-                .basePath(endpoints.updateUserInfoById)
-                .pathParam("id", userId)
-                .header("Authorization", "Bearer " + token)
-                .header("Content-Type", "application/json")
-                .body(requestBody.toString())
+                    .baseUri(endpoints.baseUrl)
+                    .basePath(endpoints.updateUserInfoById)
+                    .pathParam("id", userId)
+                    .header("Authorization", "Bearer " + token)
+                    .header("Content-Type", "application/json")
+                    .body(requestBody.toString())
                 .when()
                 .patch();
 
@@ -43,16 +35,12 @@ public class UpdateUserTests {
         softAssert.assertEquals(response.jsonPath().getString("lastName"), newLastName, Messages.userLastNameNotChanged);
 
         softAssert.assertAll();
-        methods.returnUserData(userId, token);
     }
 
     @Test(testName = "Ошибка при попытке изменить данные пользователя пустым значением")
     @Feature("Работа с данными пользователями")
     public void givenEmptyData_whenPatchUserInfo_thenBadRequestReturned() {
         JSONObject requestBody = new JSONObject();
-        Response login = methods.getDefaultUserInfo();
-        String userId = login.jsonPath().getString("user.id");
-        String token = login.jsonPath().getString("accessToken");
         SoftAssert softAssert = new SoftAssert();
 
         requestBody.put("firstName", "");
