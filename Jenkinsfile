@@ -8,12 +8,6 @@ pipeline {
             }
         }
 
-        stage('Check Mvn') {
-            steps {
-                bat 'where mvn'  // Покажет, где находится mvn или пусто, если не найден
-                bat 'mvn -v'     // Проверка доступности mvn
-            }
-        }
         stage('Build') {
             steps {
                 echo 'Building the project...'
@@ -32,7 +26,6 @@ pipeline {
                 }
             }
         }
-
     }
 
     post {
