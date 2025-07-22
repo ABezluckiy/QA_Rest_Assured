@@ -9,7 +9,6 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Скачиваем код из SCM (Git)
                 checkout scm
             }
         }
@@ -17,7 +16,6 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the project...'
-                // Собираем проект, пропуская тесты на этом шаге
                 sh 'mvn clean package -DskipTests'
             }
         }
@@ -25,12 +23,10 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Running tests...'
-                // Запускаем тесты с Maven
                 sh 'mvn test'
             }
             post {
                 always {
-                    // Публикуем результаты тестов в Jenkins
                     junit '**/target/surefire-reports/*.xml'
                 }
             }
