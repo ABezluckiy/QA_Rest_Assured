@@ -1,13 +1,15 @@
 pipeline {
     agent any
-    steps {
-        bat 'where mvn'  // Покажет, где находится mvn или пусто, если не найден
-        bat 'mvn -v'     // Проверка доступности mvn
-    }
+
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
+            }
+
+            steps {
+                bat 'where mvn'  // Покажет, где находится mvn или пусто, если не найден
+                bat 'mvn -v'     // Проверка доступности mvn
             }
         }
 
