@@ -8,6 +8,8 @@ import org.example.Methods;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import static org.hamcrest.Matchers.equalTo;
+
 public class GetUserInfoTests extends BaseTestForUser{
     @Test(testName = "Успешное получение данных пользователя из токена")
     @Feature("Работа с данными пользователя")

@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-            MAVEN_HOME = 'C:\\Program Files\\Apache\\Maven\\apache-maven-3.9.11'
-        }
-
     stages {
         stage('Checkout') {
             steps {
